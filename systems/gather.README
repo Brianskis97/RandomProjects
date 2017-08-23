@@ -1,0 +1,5 @@
+This Script prompts the user for all required data for completeing a port activation
+with lcsee systems.
+
+All data is taken in as a string input and exported to a text file in the 
+directory the script is located in.
