@@ -1,3 +1,14 @@
+import getpass
+import smtplib
+
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+emailserver = smtplib.SMTP('smtp.gmail.com', 587)
+emailserver.ehlo()
+emailserver.starttls()
+
+ans = "n"
 room = ""
 user = ""
 login = ""
@@ -29,3 +40,17 @@ ticket = "Ticket #:" +  raw_input("What is the RT tiket #?\n")
 Data.write(room + "\n" +  user + "\n" + login + "\n" + email + "\n" + supervisor
 + "\n" + compname + "\n" + serialnum + "\n" + mac + "\n" + wall + "\n" + os + 
 "\n" + kes + "\n" + ticket + "\n")
+
+ans = raw_input("Do you want to receive this info as an email? [y/n] \n")
+
+if (ans == "y") or (ans == "Y"):
+	emailserver.login(raw_input("Please Enter your Username:\n"), getpass.getpass("Please Enter your password: \n"))
+	message = MIMEMultipart('alternative')
+	message['Subject'] = 'Port Activation'
+	message['From'] = "brianskis97@gmail.com"
+	Data = open("Data", "r")
+        attach = MIMEText(Data.read())
+	message.attach(attach)	
+	emailserver.sendmail("brianskis97@gmail.com", "brianskis97@gmail.com", message.as_string())
+else:
+	print("Okay then.")
