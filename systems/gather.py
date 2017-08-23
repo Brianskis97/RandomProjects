@@ -47,10 +47,10 @@ if (ans == "y") or (ans == "Y"):
 	emailserver.login(raw_input("Please Enter your Username:\n"), getpass.getpass("Please Enter your password: \n"))
 	message = MIMEMultipart('alternative')
 	message['Subject'] = 'Port Activation'
-	message['From'] = "brianskis97@gmail.com"
+	message['From'] = "youremail"
 	Data = open("Data", "r")
         attach = MIMEText(Data.read())
 	message.attach(attach)	
-	emailserver.sendmail("brianskis97@gmail.com", "brianskis97@gmail.com", message.as_string())
+	emailserver.sendmail("youremail@gmail.com", "youremail@gmail.com", message.as_string())
 else:
 	print("Okay then.")
