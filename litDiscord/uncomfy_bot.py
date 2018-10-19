@@ -18,19 +18,19 @@ async def timeout(ctx, args, member: discord.User):
 		allroles=member.roles
 		role = discord.utils.get(member.server.roles, name='Timeout')
 		await client.replace_roles(member, role)
-		location = discord.utils.find(lambda x: x.name == 'SadBoiZone',member.server.channels)
-		await client.move_member(member, location)
+		#change so that it only moves user to voice channel if currently in one!
+		#no need to add them to one 
+		try:
+			location = discord.utils.find(lambda x: x.name == 'SadBoiZone',member.server.channels)
+			await client.move_member(member, location)
+		except:
+			pass
+
 		await asyncio.sleep(float(args)*60)
 		await client.send_message(member, "Your done now")
-		#await client.remove_roles(member, role)
-		roleList = []
-		for roler in allroles:
-			roleList.append(discord.utils.get(member.server.roles, id=roler.id))
-
-		await client.replace_roles(member, *roleList)	
-		#await client.remove_roles(member, role)
+		await client.replace_roles(member, *allroles)	
 	else:
-		await client.say("You gotta say !mute TimeInMinutes @user")
+		await client.say("You gotta say !timeout TimeInMinutes @user")
 @client.event
 async def on_member_join(member):
 	role = discord.utils.get(memver.server.roles, name='Hooman')
@@ -40,7 +40,7 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
 	await client.process_commands(message) 
-	pattern = re.compile('([\w]*[\s]*)*([Nn]*[iI1]+[gG6]+[gG6]*[eE3]+[rR]+[sS5]*)([\w]*[\s]*)*')
+	pattern = re.compile('([\w]*[\s]*)*([Nn]*[iI1]+[gG6]+[gG6]*[eE3aA@]*[rR]*[sS5]*)([\w]*[\s]*)*')
 
 	if pattern.match(message.content):
 		await client.delete_message(message)
@@ -59,5 +59,9 @@ async def sayHi(ctx):
 @client.command(pass_context=True)
 async def sayhito(ctx, member: discord.User):
 	await client.send_message(member, "hi")
+@client.command(pass_context=True)
+async def help(ctx, arg):
+	if arg == 'timeout'
+		await client.say('the timeout command removes all roles from a user and assigns them the "timeout"role and, if availible, moves them to the \"SadBoiZone\"')
 
 client.run("NTAyNTI2NjY3NjI1ODU3MDI1.DqpPtQ._heZFO4le7dKzkCfcZL0NaUrIUo")
