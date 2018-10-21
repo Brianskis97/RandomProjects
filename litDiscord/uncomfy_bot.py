@@ -8,6 +8,7 @@ import asyncio
 des = "this is a bot"
 prefix = "!"
 client = commands.Bot(command_prefix=prefix, description=des)
+client.remove_command('help')
 
 @commands.has_role('Admin')
 @client.command(pass_context=True)
@@ -40,7 +41,7 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
 	await client.process_commands(message) 
-	pattern = re.compile('([\w]*[\s]*)*([Nn]*[iI1]+[gG6]+[gG6]*[eE3aA@]*[rR]*[sS5]*)([\w]*[\s]*)*')
+	pattern = re.compile('([\w]*[\s]+)*([Nn]+[iI1]+[gG6]+[gG6]*[eE3aA@]*[rR]*[sS5]*)([\s]+[\w]*)*')
 
 	if pattern.match(message.content):
 		await client.delete_message(message)
@@ -61,7 +62,7 @@ async def sayhito(ctx, member: discord.User):
 	await client.send_message(member, "hi")
 @client.command(pass_context=True)
 async def help(ctx, arg):
-	if arg == 'timeout'
-		await client.say('the timeout command removes all roles from a user and assigns them the "timeout"role and, if availible, moves them to the \"SadBoiZone\"')
+	if arg == 'timeout':
+		await client.send_message(ctx.message.channel, 'the timeout command removes all roles from a user and assigns them the "timeout"role and, if availible, moves them to the \"SadBoiZone\"')
 
 client.run("NTAyNTI2NjY3NjI1ODU3MDI1.DqpPtQ._heZFO4le7dKzkCfcZL0NaUrIUo")
