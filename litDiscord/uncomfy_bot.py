@@ -9,11 +9,15 @@ des = "this is a bot"
 prefix = "!"
 client = commands.Bot(command_prefix=prefix, description=des)
 client.remove_command('help')
+badList = {}
 
 @commands.has_role('Admin')
 @client.command(pass_context=True)
 async def timeout(ctx, args, member: discord.User):
 	pattern2 = re.compile('([0-9]*[\.]*[0-9]*)')
+	global badList
+	badList[member.name]={}
+	badList[member.name]["timeout"] = 1
 	if pattern2.match(args):
 		await client.send_message(member, "You have been muted for: " + args + " minutes")
 		allroles=member.roles
@@ -23,11 +27,17 @@ async def timeout(ctx, args, member: discord.User):
 		#no need to add them to one 
 		try:
 			location = discord.utils.find(lambda x: x.name == 'SadBoiZone',member.server.channels)
+			if member.VoiceState.voice_channel == None:
+				SyntaxError: "no"
 			await client.move_member(member, location)
 		except:
 			pass
-
-		await asyncio.sleep(float(args)*60)
+		async def theTimer(args):
+			timenow = time.time()
+			while ((time.time() < (timenow + (60.0 * float(args)))) and int(badList[member.name]["timeout"]) == 1):
+				print(badList[member.name]["timeout"] == 1)
+				await asyncio.sleep(1)
+		await theTimer(args)
 		await client.send_message(member, "Your done now")
 		await client.replace_roles(member, *allroles)	
 	else:
@@ -43,7 +53,7 @@ async def on_message(message):
 	await client.process_commands(message) 
 	pattern = re.compile('([\w]*[\s]+)*([Nn]+[iI1]+[gG6]+[gG6]*[eE3aA@]*[rR]*[sS5]*)([\s]+[\w]*)*')
 
-	if pattern.match(message.content):
+	if (pattern.match(message.content)):
 		await client.delete_message(message)
 	if message.server is None:
 		try:
@@ -60,6 +70,17 @@ async def sayHi(ctx):
 @client.command(pass_context=True)
 async def sayhito(ctx, member: discord.User):
 	await client.send_message(member, "hi")
+@client.command(pass_context=True)
+async def free(ctx, member: discord.User):
+
+	print(badList[member.name]["timeout"])
+	try:
+		if badList[member.name]["timeout"] == 1:
+			badList[member.name]["timeout"] = 0
+		else:
+			SyntaxError: "ivalid syntax"
+	except:
+		await client.say("User is not in timeout")
 @client.command(pass_context=True)
 async def help(ctx, arg):
 	if arg == 'timeout':
