@@ -60,7 +60,8 @@ def main():
 				if tempoutput != '':
 					output.append(tempoutput)
 					tempoutput = ""
-				tempoutput += "Name: " + row[1] + "\nMAC: [" + row[9] + "]\n"
+				tempoutput += row[0] + " " + row[1] + " Network Inventory\n"
+				tempoutput += "MAC: [" + row[9] + "]\n"
 			else:
 				tempoutput += "MAC: [" + row[9] + "]\n"
 			prevName = name
