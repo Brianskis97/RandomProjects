@@ -40,13 +40,14 @@ def main():
 	sheet = service.spreadsheets()
 	result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,range=SAMPLE_RANGE_NAME).execute()
 	values = result.get('values', [])
-
+	"""
 	if not values:
 		print('No data')
 	else:
 		print('Name, Major')
 		for row in values:
 			print(row[1] +" " + row[9])
+	"""
 	output = []
 	prevName = ''
 	if not values:
@@ -58,11 +59,12 @@ def main():
 			if prevName == '' or name != prevName:
 				if tempoutput != '':
 					output.append(tempoutput)
-				tempoutput = ""
-				tempoutput = "Name: " + row[1] + "\nMAC: [" + row[9] + "]\n"
+					tempoutput = ""
+				tempoutput += "Name: " + row[1] + "\nMAC: [" + row[9] + "]\n"
 			else:
-				tempoutput = "MAC: [" + row[9] + "]\n"
+				tempoutput += "MAC: [" + row[9] + "]\n"
 			prevName = name
+		output.append(tempoutput)
 	for data in output:
 		print(data)
 
