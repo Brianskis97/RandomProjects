@@ -48,6 +48,8 @@ def main():
 		for row in values:
 			print(row[1] +" " + row[9])
 	"""
+	#Change to use array of Dict's instead of string, will allow later
+	#access of specific variables for email generation
 	output = []
 	prevName = ''
 	if not values:
